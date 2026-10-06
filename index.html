@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FitCoach — Remote Fitness Coaching | Custom Workouts &amp; Diet Plans</title>
+  <meta name="description" content="Get expert-guided, personalized workout routines and diet plans delivered to your phone. Professional remote fitness coaching from certified trainers. Start your transformation today.">
+  <meta name="theme-color" content="#2D6A4F">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <meta property="og:title" content="FitCoach — Professional Remote Fitness Coaching">
+  <meta property="og:description" content="Custom workout plans, personalized diet, and daily 1-on-1 coaching — all delivered remotely.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&h=630&fit=crop">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    /* Layout: full-width sections, 1120px centered content, 2-col desktop */
+    :root {
+      --clr-bg: #FAFAF7;
+      --clr-surface: #FFFFFF;
+      --clr-text: #1A1A1A;
+      --clr-text-muted: #5C5C5C;
+      --clr-accent: #2D6A4F;
+      --clr-accent-light: #D8F3DC;
+      --clr-accent-hover: #1B4332;
+      --clr-highlight: #E8985A;
+      --clr-border: #E0DED8;
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --clr-bg: #141412;
+        --clr-surface: #1E1E1B;
+        --clr-text: #F0EEE8;
+        --clr-text-muted: #9A9990;
+        --clr-accent: #45A876;
+        --clr-accent-light: #1C3D2A;
+        --clr-accent-hover: #5DC48C;
+        --clr-border: #2E2E2A;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --clr-bg: #141412;
+      --clr-surface: #1E1E1B;
+      --clr-text: #F0EEE8;
+      --clr-text-muted: #9A9990;
+      --clr-accent: #45A876;
+      --clr-accent-light: #1C3D2A;
+      --clr-accent-hover: #5DC48C;
+      --clr-border: #2E2E2A;
+      color-scheme: dark;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-body); background: var(--clr-bg); color: var(--clr-text); line-height: 1.65; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: var(--font-body); cursor: pointer; }
+    ul { list-style: none; }
+
+    .skip-link { position: absolute; top: -100%; left: 1rem; background: var(--clr-accent); color: #fff; padding: .75rem 1.5rem; border-radius: 8px; font-weight: 600; z-index: 9999; transition: top .2s; }
+    .skip-link:focus { top: 1rem; }
+
+    .container { max-width: 1120px; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+    section { scroll-margin-top: 80px; }
+
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--clr-accent); color: #fff; padding: 1rem 2.25rem; font: 600 1rem/1 var(--font-body); border-radius: 8px; border: none; cursor: pointer; transition: background .2s ease; white-space: nowrap; text-decoration: none; }
+    .btn-primary:hover { background: var(--clr-accent-hover); }
+    .btn-ghost { display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--clr-accent); border: 1.5px solid var(--clr-accent); padding: 1rem 2.25rem; font: 600 1rem/1 var(--font-body); border-radius: 8px; cursor: pointer; transition: background .2s, color .2s; white-space: nowrap; text-decoration: none; }
+    .btn-ghost:hover { background: var(--clr-accent); color: #fff; }
+
+    .hidden { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .revealed { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .hidden { opacity: 1; transform: none; } }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; transition: background .3s, border-bottom .3s; padding-block: 1.25rem; }
+    nav.scrolled { background: var(--clr-bg); border-bottom: 1px solid var(--clr-border); }
+    .nav-inner { max-width: 1120px; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .nav-logo { font-family: var(--font-display); font-size: 1.5rem; color: var(--clr-text); font-weight: 400; flex-shrink: 0; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-size: .9rem; font-weight: 500; color: var(--clr-text-muted); transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--clr-accent); }
+    .nav-links .nav-cta-link { background: var(--clr-accent); color: #fff !important; padding: .65rem 1.5rem; border-radius: 8px; transition: background .2s !important; }
+    .nav-links .nav-cta-link:hover { background: var(--clr-accent-hover); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: .5rem; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--clr-text); border-radius: 2px; transition: transform .3s, opacity .3s; }
+    .nav-overlay { display: none; position: fixed; inset: 0; background: var(--clr-bg); z-index: 200; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
+    .nav-overlay.open { display: flex; }
+    .nav-overlay .overlay-links { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+    .nav-overlay .overlay-links a { font-size: 1.5rem; font-weight: 500; color: var(--clr-text); transition: color .2s; }
+    .nav-overlay .overlay-links a:hover { color: var(--clr-accent); }
+    .overlay-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 2rem; line-height: 1; color: var(--clr-text); cursor: pointer; }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-block: clamp; }
+    .hero-inner { max-width: 1120px; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); display: grid; grid-template-columns: 60fr 40fr; gap: 4rem; align-items: center; width: 100%; }
+    .hero-eyebrow { display: inline-block; background: var(--clr-accent-light); color: var(--clr-accent); padding: .35rem 1rem; border-radius: 99px; font-size: .8rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: .02em; }
+    .hero-headline { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1.05; font-weight: 400; color: var(--clr-text); margin-bottom: 1.5rem; text-wrap: balance; }
+    .hero-sub { font-size: 1.125rem; color: var(--clr-text-muted); max-width: 55ch; margin-bottom: 2.5rem; line-height: 1.65; }
+    .hero-cta-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .hero-social-proof { display: flex; align-items: center; gap: .75rem; }
+    .avatar-stack { display: flex; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; border: 2.5px solid var(--clr-bg); object-fit: cover; margin-left: -10px; overflow: hidden; background: var(--clr-accent-light); flex-shrink: 0; }
+    .avatar:first-child { margin-left: 0; }
+    .social-proof-text { font-size: .875rem; color: var(--clr-text-muted); line-height: 1.5; }
+    .hero-img { width: 100%; height: clamp(400px, 55vw, 640px); object-fit: cover; border-radius: 16px; }
+    @media (max-width: 1080px) { .hero-inner { gap: 2.5rem; } }
+    @media (max-width: 768px) { .hero-inner { grid-template-columns: 1fr; } .hero-img { height: 320px; } #hero { min-height: auto; padding-top: 6rem; } }
+
+    /* SOCIAL PROOF BAR */
+    #social-proof { background: #F0EFEA; padding-block: 2.5rem; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #social-proof { background: #1A1A18; } }
+    :root[data-theme="dark"] #social-proof { background: #1A1A18; }
+    .sp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center; }
+    .sp-number { font-family: var(--font-display); font-size: 2rem; color: var(--clr-text); line-height: 1.2; margin-bottom: .35rem; }
+    .sp-label { font-size: .875rem; color: var(--clr-text-muted); }
+    @media (max-width: 768px) { .sp-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ABOUT */
+    #about { padding-block: clamp(4rem, 8vw, 7rem); }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-img { width: 100%; height: 550px; object-fit: cover; object-position: top; border-radius: 12px; }
+    .section-label { font-size: .8rem; font-weight: 500; color: var(--clr-accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .75rem; }
+    .section-h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.15; font-weight: 400; color: var(--clr-text); margin-bottom: 1.5rem; text-wrap: balance; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.75rem; }
+    .badge { background: var(--clr-accent-light); color: var(--clr-accent); padding: .35rem 1rem; border-radius: 99px; font-size: .8rem; font-weight: 600; }
+    .bio p { color: var(--clr-text-muted); margin-bottom: 1rem; max-width: 65ch; line-height: 1.7; }
+    .bio p strong { color: var(--clr-text); }
+    .coach-signoff { font-family: var(--font-display); font-size: 1.1rem; font-style: italic; color: var(--clr-text-muted); margin-top: 1.5rem; }
+    @media (max-width: 768px) { .about-inner { grid-template-columns: 1fr; gap: 2rem; } .about-img { height: 300px; } }
+
+    /* SERVICES */
+    #services { padding-block: clamp(4rem, 8vw, 7rem); }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-sub { font-size: 1rem; color: var(--clr-text-muted); max-width: 55ch; margin: 0 auto; line-height: 1.65; }
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .service-card { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 12px; padding: 2rem; transition: border-color .2s; }
+    .service-card:hover { border-color: var(--clr-accent); }
+    .service-icon-wrap { width: 80px; height: 80px; background: var(--clr-accent-light); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; flex-shrink: 0; transition: background .2s; }
+    .service-card:hover .service-icon-wrap { background: var(--clr-accent); }
+    .service-icon { width: 46px; height: 46px; color: var(--clr-accent); transition: color .2s; }
+    .service-card:hover .service-icon { color: #fff; }
+    .service-title { font-size: clamp(1.1rem, 2vw, 1.25rem); font-weight: 600; line-height: 1.3; color: var(--clr-text); margin-bottom: .75rem; }
+    .service-desc { font-size: 1rem; color: var(--clr-text-muted); line-height: 1.65; }
+    @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+
+    /* Step illustrations */
+    .step-illustration { width: 100px; height: 80px; color: var(--clr-accent); margin-bottom: 1.25rem; opacity: .85; }
+    @media (max-width: 768px) { .step-illustration { display: none; } }
+
+    /* Hero floating card */
+    .hero-float-card { position: absolute; bottom: 2rem; left: -2rem; background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 14px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: .75rem; box-shadow: 0 8px 32px rgba(0,0,0,.08); min-width: 200px; }
+    .hero-float-card2 { position: absolute; top: 2rem; right: -1.5rem; background: var(--clr-accent); border-radius: 14px; padding: 1rem 1.25rem; min-width: 160px; box-shadow: 0 8px 32px rgba(45,106,79,.3); }
+    .hfc-icon { width: 36px; height: 36px; background: var(--clr-accent-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .hfc-icon svg { width: 20px; height: 20px; color: var(--clr-accent); }
+    .hfc-label { font-size: .7rem; color: var(--clr-text-muted); font-weight: 500; margin-bottom: .15rem; }
+    .hfc-value { font-size: 1rem; font-weight: 700; color: var(--clr-text); }
+    .hfc-label2 { font-size: .7rem; color: rgba(255,255,255,.7); font-weight: 500; margin-bottom: .15rem; }
+    .hfc-value2 { font-size: 1rem; font-weight: 700; color: #fff; }
+    .hero-img-col { position: relative; }
+    @media (max-width: 768px) { .hero-float-card, .hero-float-card2 { display: none; } }
+
+    /* HOW IT WORKS */
+    #how-it-works { padding-block: clamp(4rem, 8vw, 7rem); }
+    .steps-wrapper { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem; }
+    .steps-wrapper::before { content: ''; position: absolute; top: 32px; left: calc(16.67% + 32px); right: calc(16.67% + 32px); height: 2px; border-top: 2px dashed var(--clr-border); z-index: 0; }
+    .step { display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 1; }
+    .step-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--clr-accent-light); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; flex-shrink: 0; }
+    .step-number { font-family: var(--font-display); font-size: 1.75rem; color: var(--clr-accent); line-height: 1; }
+    .step-title { font-weight: 600; font-size: 1.1rem; color: var(--clr-text); margin-bottom: .75rem; }
+    .step-desc { font-size: 1rem; color: var(--clr-text-muted); max-width: 30ch; line-height: 1.65; }
+    .how-cta { text-align: center; }
+    @media (max-width: 768px) { .steps-wrapper { grid-template-columns: 1fr; gap: 2rem; } .steps-wrapper::before { display: none; } .step { align-items: flex-start; text-align: left; flex-direction: row; gap: 1.25rem; } .step-circle { margin-bottom: 0; } .step-desc { max-width: none; } }
+
+    /* PRICING */
+    #pricing { padding-block: clamp(4rem, 8vw, 7rem); background: #1A1A1A; }
+    .pricing-header { text-align: center; margin-bottom: 3rem; }
+    .pricing-headline { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.15; font-weight: 400; color: #fff; margin-bottom: 1rem; text-wrap: balance; }
+    .pricing-sub { font-size: 1rem; color: rgba(255,255,255,.65); max-width: 55ch; margin: 0 auto; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+    .pricing-card { background: #2A2A2A; border: 1px solid #3A3A3A; border-radius: 12px; padding: 2.25rem 1.75rem; color: #fff; display: flex; flex-direction: column; }
+    .pricing-card.highlighted { border: 2px solid var(--clr-highlight); background: #333; }
+    .best-value-badge { display: inline-block; background: var(--clr-highlight); color: #fff; padding: .3rem .85rem; border-radius: 99px; font-size: .75rem; font-weight: 700; margin-bottom: 1rem; align-self: flex-start; }
+    .plan-name { font-weight: 600; font-size: 1.15rem; color: #fff; margin-bottom: .75rem; }
+    .plan-price { font-family: var(--font-display); font-size: 2.5rem; color: #fff; line-height: 1.1; margin-bottom: .3rem; }
+    .plan-duration { font-size: .875rem; color: rgba(255,255,255,.5); }
+    .pricing-divider { border: none; border-top: 1px solid #3A3A3A; margin-block: 1.25rem; }
+    .feature-list { display: flex; flex-direction: column; gap: .6rem; margin-bottom: auto; }
+    .feature-item { display: flex; align-items: flex-start; gap: .6rem; font-size: .875rem; color: rgba(255,255,255,.8); line-height: 1.4; }
+    .feature-check { flex-shrink: 0; color: var(--clr-accent); margin-top: 2px; width: 16px; height: 16px; }
+    .pricing-card-cta { margin-top: 2rem; }
+    .btn-ghost-white { display: flex; align-items: center; justify-content: center; width: 100%; background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.35); padding: .875rem 1.5rem; font: 600 .9rem/1 var(--font-body); border-radius: 8px; cursor: pointer; transition: background .2s, border-color .2s; text-decoration: none; }
+    .btn-ghost-white:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); }
+    .btn-primary-pricing { display: flex; align-items: center; justify-content: center; width: 100%; background: var(--clr-accent); color: #fff; border: none; padding: .875rem 1.5rem; font: 600 .9rem/1 var(--font-body); border-radius: 8px; cursor: pointer; transition: background .2s; text-decoration: none; }
+    .btn-primary-pricing:hover { background: var(--clr-accent-hover); }
+    .pricing-guarantee { text-align: center; font-size: .875rem; color: rgba(255,255,255,.5); }
+    @media (max-width: 1080px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+    /* TESTIMONIALS */
+    #results { padding-block: clamp(4rem, 8vw, 7rem); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+    .testimonial-card { background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .before-after { display: flex; gap: .75rem; }
+    .ba-img { flex: 1; display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+    .ba-placeholder { width: 100%; aspect-ratio: 1; background: #DDD; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .7rem; color: #888; text-align: center; padding: .5rem; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ba-placeholder { background: #333; color: #777; } }
+    :root[data-theme="dark"] .ba-placeholder { background: #333; color: #777; }
+    .ba-label { font-size: .75rem; color: var(--clr-text-muted); font-weight: 500; }
+    .testimonial-quote { font-size: .95rem; color: var(--clr-text-muted); font-style: italic; line-height: 1.7; flex: 1; }
+    .testimonial-attribution { font-size: .875rem; color: var(--clr-text-muted); }
+    .testimonial-attribution strong { color: var(--clr-text); display: block; margin-bottom: .2rem; }
+    .result-tag { display: inline-block; background: var(--clr-accent-light); color: var(--clr-accent); padding: .3rem .85rem; border-radius: 99px; font-size: .8rem; font-weight: 600; }
+    @media (max-width: 1080px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+    /* FAQ */
+    #faq { padding-block: clamp(4rem, 8vw, 7rem); }
+    .faq-inner { max-width: 720px; margin: 0 auto; }
+    .faq-header { text-align: center; margin-bottom: 3rem; }
+    .faq-item { border-bottom: 1px solid var(--clr-border); }
+    .faq-btn { width: 100%; background: none; border: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; font: 600 1rem/1.4 var(--font-body); color: var(--clr-text); cursor: pointer; text-align: left; }
+    .faq-btn:hover { color: var(--clr-accent); }
+    .faq-chevron { flex-shrink: 0; width: 20px; height: 20px; color: var(--clr-text-muted); transition: transform .3s ease; }
+    .faq-btn[aria-expanded="true"] .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+    .faq-answer-inner { padding-bottom: 1.5rem; font-size: 1rem; color: var(--clr-text-muted); line-height: 1.7; }
+
+    /* FINAL CTA */
+    #final-cta { padding-block: clamp(4rem, 8vw, 7rem); background: var(--clr-accent); text-align: center; }
+    .final-cta-inner { max-width: 1120px; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+    .final-cta-headline { font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 400; color: #fff; margin-bottom: 1.25rem; text-wrap: balance; }
+    .final-cta-sub { font-size: 1rem; color: rgba(255,255,255,.85); max-width: 50ch; margin: 0 auto 2.5rem; line-height: 1.65; }
+    .btn-cta-inverted { display: inline-flex; align-items: center; justify-content: center; background: #fff; color: var(--clr-accent); font: 700 1rem/1 var(--font-body); padding: 1rem 2.25rem; border-radius: 8px; border: none; cursor: pointer; transition: opacity .2s; text-decoration: none; }
+    .btn-cta-inverted:hover { opacity: .9; }
+
+    /* FOOTER */
+    footer { background: #1A1A1A; padding-top: clamp(3rem, 6vw, 5rem); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 1.5rem; color: #fff; margin-bottom: .75rem; }
+    .footer-tagline { font-size: .875rem; color: rgba(255,255,255,.5); margin-bottom: 1.5rem; line-height: 1.5; }
+    .social-icons { display: flex; gap: 1rem; }
+    .social-icon { width: 24px; height: 24px; color: rgba(255,255,255,.6); transition: color .2s; flex-shrink: 0; }
+    .social-icon:hover { color: #fff; }
+    .footer-col-title { font-size: .8rem; font-weight: 500; color: #fff; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 1.25rem; }
+    .footer-links { display: flex; flex-direction: column; gap: .65rem; }
+    .footer-links a { font-size: .875rem; color: rgba(255,255,255,.6); transition: color .2s; }
+    .footer-links a:hover { color: #fff; }
+    .footer-contact { display: flex; flex-direction: column; gap: .65rem; }
+    .footer-contact-item { font-size: .875rem; color: rgba(255,255,255,.6); line-height: 1.5; }
+    .footer-bottom { border-top: 1px solid #3A3A3A; padding-block: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .footer-copy { font-size: .875rem; color: rgba(255,255,255,.4); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { font-size: .875rem; color: rgba(255,255,255,.4); transition: color .2s; }
+    .footer-legal a:hover { color: rgba(255,255,255,.7); }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; gap: 2rem; } .footer-bottom { flex-direction: column; text-align: center; } }
+
+    /* ===== MOBILE POLISH ===== */
+    /* Hero mobile stats – hidden on desktop, shown on mobile */
+    .hero-mobile-stats { display: none; }
+
+    /* Service card text wrapper for horizontal mobile layout */
+    .service-text { flex: 1; min-width: 0; }
+
+    @media (max-width: 768px) {
+      /* Hero: stack buttons full-width */
+      .hero-cta-group { flex-direction: column; gap: .85rem; }
+      .hero-cta-group a { width: 100%; padding: 1rem; font-size: 1rem; }
+      .hero-sub { font-size: 1rem; max-width: none; }
+      #hero { padding-top: 5.5rem; padding-bottom: 2.5rem; }
+
+      /* Mini stat cards below hero image on mobile */
+      .hero-mobile-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .65rem;
+        margin-top: 1rem;
+      }
+      .hms-card {
+        background: var(--clr-surface);
+        border: 1px solid var(--clr-border);
+        border-radius: 12px;
+        padding: .85rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+      }
+      .hms-icon {
+        width: 32px; height: 32px;
+        background: var(--clr-accent-light);
+        border-radius: 9px;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+      .hms-icon svg { width: 16px; height: 16px; color: var(--clr-accent); }
+      .hms-label { font-size: .65rem; color: var(--clr-text-muted); font-weight: 500; line-height: 1.3; }
+      .hms-value { font-size: .9rem; font-weight: 700; color: var(--clr-text); line-height: 1.2; }
+
+      /* Services: horizontal card layout on mobile */
+      .service-card { display: flex; flex-direction: row; align-items: flex-start; gap: 1rem; padding: 1.25rem; }
+      .service-icon-wrap { width: 54px; height: 54px; border-radius: 14px; margin-bottom: 0; flex-shrink: 0; }
+      .service-icon { width: 30px; height: 30px; }
+
+      /* Steps: left-accent bar layout */
+      .steps-wrapper { gap: 0; }
+      .step {
+        border-left: 2px solid var(--clr-accent-light);
+        padding-left: 1.5rem;
+        padding-block: 1rem;
+        margin-left: .5rem;
+      }
+      .step:first-child { padding-top: 0; }
+      .step-circle { width: 44px; height: 44px; margin-top: .1rem; flex-shrink: 0; }
+      .step-number { font-size: 1.2rem; }
+
+      /* About: achievement strip wraps */
+      .about-inner { gap: 1.5rem; }
+      .about-img { height: 260px; border-radius: 12px; }
+
+      /* Testimonials: tighter on mobile */
+      .testimonial-card { padding: 1.25rem; }
+      .before-after { gap: .5rem; }
+
+      /* FAQ: slightly smaller question text */
+      .faq-btn { font-size: .9rem; padding: 1.25rem 0; }
+
+      /* Section header spacing */
+      .section-header { margin-bottom: 2rem; }
+
+      /* Pricing: tighter card padding */
+      .pricing-card { padding: 1.5rem 1.25rem; }
+      .plan-price { font-size: 2rem; }
+
+      /* Final CTA */
+      .final-cta-sub { max-width: none; }
+      .btn-cta-inverted { width: 100%; max-width: 360px; padding: 1rem; }
+
+      /* Footer */
+      .footer-tagline { margin-bottom: 1rem; }
+      .social-icons { gap: .85rem; }
+      .social-icon { width: 28px; height: 28px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-headline { font-size: clamp(2rem, 8vw, 2.8rem); }
+      .sp-number { font-size: 1.6rem; }
+      .sp-grid { gap: .5rem; }
+      .sp-metric { padding: .75rem .5rem; }
+      .badge { font-size: .72rem; padding: .3rem .7rem; }
+      .pricing-grid { gap: 1rem; }
+      .hero-mobile-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- NAV -->
+<nav id="navbar" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">FitCoach</a>
+    <ul class="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#pricing" class="nav-cta-link">Get Started</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-overlay">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE OVERLAY -->
+<div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <button class="overlay-close" aria-label="Close navigation menu">&#x2715;</button>
+  <nav class="overlay-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#results">Results</a>
+    <a href="#faq">FAQ</a>
+    <a href="#pricing" class="btn-primary" style="margin-top:.5rem">Get Started</a>
+  </nav>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section id="hero" aria-labelledby="hero-headline">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="hero-eyebrow">Remote Fitness Coaching</span>
+      <h1 class="hero-headline" id="hero-headline">Your Fitness, Your Rules — Professional Coaching, Anywhere.</h1>
+      <p class="hero-sub">Get expert-guided workout routines, personalized diet plans, and daily accountability — delivered directly to your phone. Achieve the body you want without ever stepping into a physical gym.</p>
+      <div class="hero-cta-group">
+        <a href="#pricing" class="btn-primary">Start Your Transformation</a>
+        <a href="#how-it-works" class="btn-ghost">See How It Works</a>
+      </div>
+      <div class="hero-social-proof">
+        <div class="avatar-stack" aria-hidden="true">
+          <img class="avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=faces" alt="" loading="lazy">
+          <img class="avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces" alt="" loading="lazy">
+          <img class="avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=faces" alt="" loading="lazy">
+        </div>
+        <p class="social-proof-text">Trusted by <strong>500+ clients</strong> across India</p>
+      </div>
+    </div>
+    <div class="hero-img-col">
+      <img class="hero-img" src="https://th.bing.com/th/id/OIP.e4A-I9IfT5BfaJ4dAJMbjwHaHa?w=166&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3" alt="Person training with focused intensity in a well-lit space" loading="eager">
+      <!-- Floating stat card — bottom left -->
+      <div class="hero-float-card" aria-hidden="true">
+        <div class="hfc-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3,14 7,9 11,12 17,5"/>
+            <polyline points="14,5 17,5 17,8"/>
+          </svg>
+        </div>
+        <div>
+          <div class="hfc-label">Weekly Progress</div>
+          <div class="hfc-value">−1.2 kg ↑</div>
+        </div>
+      </div>
+      <!-- Mobile-only stats below image -->
+      <div class="hero-mobile-stats" aria-hidden="true">
+        <div class="hms-card">
+          <div class="hms-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2L9.6 5.8L14 6.3L11 9.2L11.7 13.5L8 11.5L4.3 13.5L5 9.2L2 6.3L6.4 5.8Z"/></svg></div>
+          <div><div class="hms-label">Rating</div><div class="hms-value">4.9 ★</div></div>
+        </div>
+        <div class="hms-card">
+          <div class="hms-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg></div>
+          <div><div class="hms-label">Experience</div><div class="hms-value">8+ Years</div></div>
+        </div>
+        <div class="hms-card">
+          <div class="hms-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12L6 9L9 11L13 5"/><polyline points="10,5 13,5 13,8"/></svg></div>
+          <div><div class="hms-label">Clients</div><div class="hms-value">500+</div></div>
+        </div>
+        <div class="hms-card">
+          <div class="hms-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="5" height="5" rx="1"/><rect x="9" y="3" width="5" height="5" rx="1"/><rect x="2" y="10" width="5" height="5" rx="1"/><rect x="9" y="10" width="5" height="5" rx="1"/></svg></div>
+          <div><div class="hms-label">Workouts</div><div class="hms-value">15k+</div></div>
+        </div>
+      </div>
+
+      <!-- Floating rating card — top right -->
+      <div class="hero-float-card2" aria-hidden="true">
+        <div class="hfc-label2">Client Rating</div>
+        <div class="hfc-value2">★ 4.9 / 5.0</div>
+        <div style="display:flex;gap:3px;margin-top:.4rem">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="#fff" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.5 3,11 3.5,7.5 1,5 4.5,4.5"/></svg>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="#fff" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.5 3,11 3.5,7.5 1,5 4.5,4.5"/></svg>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="#fff" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.5 3,11 3.5,7.5 1,5 4.5,4.5"/></svg>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="#fff" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.5 3,11 3.5,7.5 1,5 4.5,4.5"/></svg>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="rgba(255,255,255,0.4)" xmlns="http://www.w3.org/2000/svg"><polygon points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.5 3,11 3.5,7.5 1,5 4.5,4.5"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF BAR -->
+<section id="social-proof" aria-label="Key statistics">
+  <div class="container">
+    <div class="sp-grid">
+      <div class="sp-metric"><div class="sp-number">500+</div><div class="sp-label">Clients Coached</div></div>
+      <div class="sp-metric"><div class="sp-number">8+</div><div class="sp-label">Years Experience</div></div>
+      <div class="sp-metric"><div class="sp-number">15,000+</div><div class="sp-label">Workouts Delivered</div></div>
+      <div class="sp-metric"><div class="sp-number">4.9 &#9733;</div><div class="sp-label">Average Client Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave divider -->
+<div aria-hidden="true" style="line-height:0;background:var(--clr-bg)">
+  <svg viewBox="0 0 1440 40" preserveAspectRatio="none" style="display:block;width:100%;height:40px" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,20 C240,40 480,0 720,20 C960,40 1200,0 1440,20 L1440,40 L0,40Z" fill="#F0EFEA"/>
+  </svg>
+</div>
+
+<!-- ABOUT -->
+<section id="about" aria-labelledby="about-headline" class="hidden">
+  <div class="container">
+    <div class="about-inner">
+      <div>
+        <img class="about-img" src="https://tse2.mm.bing.net/th/id/OIP.JgMUtSilm-9Nfoo5roosLQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Coach Arjun Mehta, certified personal trainer" loading="lazy">
+      </div>
+      <div>
+        <p class="section-label">Your Coach</p>
+        <h2 class="section-h2" id="about-headline">Meet Coach Arjun Mehta</h2>
+        <div class="badge-row">
+          <span class="badge">Certified Personal Trainer (ACE)</span>
+          <span class="badge">Sports Nutritionist</span>
+          <span class="badge">8+ Years Experience</span>
+        </div>
+        <div class="bio">
+          <p>With over 8 years of hands-on experience and more than 500 transformations under my belt, I started FitCoach with one belief: <strong>fitness should fit your lifestyle, not the other way around.</strong></p>
+          <p>I've worked with stay-at-home parents, late-night shift workers, college students in hostels, and busy professionals — all remotely. Every plan I build is designed around <em>your</em> schedule, <em>your</em> equipment, and <em>your</em> body. No cookie-cutter PDFs. No automated bots. You work directly with me.</p>
+          <p>My goal isn't just to give you a workout. It's to teach you how your body works so you stay fit for life — long after our coaching ends.</p>
+        </div>
+        <p class="coach-signoff">— Coach Arjun</p>
+        <!-- Achievement strip with small SVG icons -->
+        <div style="display:flex;gap:1.5rem;margin-top:2rem;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:.5rem;color:var(--clr-text-muted);font-size:.8rem">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--clr-accent)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="7" r="4"/><path d="M6,7 L4,16 L10,13 L16,16 L14,7"/></svg>
+            ACE Certified
+          </div>
+          <div style="display:flex;align-items:center;gap:.5rem;color:var(--clr-text-muted);font-size:.8rem">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--clr-accent)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2L12.4 7.6L18 8.4L14 12.3L15.1 18L10 15.3L4.9 18L6 12.3L2 8.4L7.6 7.6Z"/></svg>
+            500+ Transformations
+          </div>
+          <div style="display:flex;align-items:center;gap:.5rem;color:var(--clr-text-muted);font-size:.8rem">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--clr-accent)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2H14L16 8H4Z"/><path d="M4 8C4 8 2 10 2 13C2 15.2 3.8 17 6 17H14C16.2 17 18 15.2 18 13C18 10 16 8 16 8"/><line x1="10" y1="8" x2="10" y2="17"/></svg>
+            Sports Nutritionist
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" aria-labelledby="services-headline" class="hidden">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-h2" id="services-headline">Everything You Need to Succeed</h2>
+      <p class="section-sub">No gym membership required. No confusion. Just a clear, expert-built path to your goals.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon-wrap" aria-hidden="true">
+          <svg class="service-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- barbell shaft -->
+            <line x1="12" y1="23" x2="34" y2="23" stroke-width="2.5"/>
+            <!-- left weight block -->
+            <rect x="3" y="17" width="9" height="12" rx="2"/>
+            <!-- right weight block -->
+            <rect x="34" y="17" width="9" height="12" rx="2"/>
+            <!-- left collar -->
+            <rect x="12" y="19" width="4" height="8" rx="1"/>
+            <!-- right collar -->
+            <rect x="30" y="19" width="4" height="8" rx="1"/>
+            <!-- upward arrow (progress) -->
+            <polyline points="38,8 41,5 44,8" stroke-width="1.5"/>
+            <line x1="41" y1="5" x2="41" y2="13" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="service-text">
+          <h3 class="service-title">100% Custom Workout Plans</h3>
+          <p class="service-desc">Every rep is planned for you. Tell me your goals — fat loss, muscle gain, endurance — your available equipment, and your fitness level. You get a plan built from scratch, not a template downloaded from the internet.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon-wrap" aria-hidden="true">
+          <svg class="service-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- plate / bowl -->
+            <ellipse cx="23" cy="30" rx="16" ry="5"/>
+            <path d="M7 30 Q7 38 23 38 Q39 38 39 30"/>
+            <!-- apple on plate -->
+            <path d="M23 14 C23 14 17 14 14 20 C11 26 14 30 20 31 C23 31.5 23 31.5 23 31.5 C23 31.5 23 31.5 26 31 C32 30 35 26 32 20 C29 14 23 14 23 14Z"/>
+            <!-- stem -->
+            <path d="M23 14 C23 10 26 8 27 6" stroke-width="1.5"/>
+            <!-- leaf -->
+            <path d="M27 6 C31 7 30 12 23 14" fill="currentColor" fill-opacity="0.15"/>
+            <!-- center groove -->
+            <line x1="23" y1="16" x2="23" y2="31" stroke-width="1" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="service-text">
+          <h3 class="service-title">Personalized Nutrition &amp; Diet</h3>
+          <p class="service-desc">Know exactly what to eat, how much, and when. Your meal plan respects your food preferences, budget, and whether you're vegetarian, non-veg, vegan, or anything in between. No guesswork at mealtime.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon-wrap" aria-hidden="true">
+          <svg class="service-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="12" y="4" width="22" height="38" rx="4"/>
+            <rect x="15" y="9" width="16" height="26" rx="2"/>
+            <circle cx="23" cy="38.5" r="1.5" fill="currentColor" stroke="none"/>
+            <rect x="17" y="24" width="3" height="6" rx="1" fill="currentColor" fill-opacity="0.2" stroke="none"/>
+            <rect x="21.5" y="20" width="3" height="10" rx="1" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+            <rect x="26" y="16" width="3" height="14" rx="1" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+            <line x1="17" y1="13" x2="31" y2="13" stroke-width="1.5" opacity="0.4"/>
+            <line x1="17" y1="13" x2="25" y2="13" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="service-text">
+          <h3 class="service-title">Your Personal Dashboard</h3>
+          <p class="service-desc">Log in to your private dashboard every morning to see the day's workout, watch exercise tutorial videos, and log your weight and body measurements. Everything in one place, accessible from your phone.</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon-wrap" aria-hidden="true">
+          <svg class="service-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8H32C33.1 8 34 8.9 34 10V26C34 27.1 33.1 28 32 28H18L10 34V28H6C4.9 28 4 27.1 4 26V10C4 8.9 4.9 8 6 8Z"/>
+            <line x1="10" y1="16" x2="28" y2="16"/>
+            <line x1="10" y1="21" x2="22" y2="21"/>
+            <path d="M28 30H42C43.1 30 44 30.9 44 32V40C44 41.1 43.1 42 42 42H38L34 46V42H28C26.9 42 26 41.1 26 40V32C26 30.9 26.9 30 28 30Z"/>
+            <polyline points="30,36 33,39 40,33" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <div class="service-text">
+          <h3 class="service-title">1-on-1 Daily Check-ins</h3>
+          <p class="service-desc">Message me directly — every single day. Ask questions, send form-check videos, tell me you're struggling with motivation. I respond personally because accountability is the difference between a plan and a result.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" aria-labelledby="how-headline" class="hidden">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-h2" id="how-headline">Your Journey Starts in Three Steps</h2>
+    </div>
+    <div class="steps-wrapper">
+      <div class="step">
+        <!-- Clipboard assessment illustration -->
+        <svg class="step-illustration" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="22" y="10" width="56" height="64" rx="4"/>
+          <rect x="36" y="4" width="28" height="14" rx="3"/>
+          <!-- checkboxes -->
+          <rect x="30" y="30" width="10" height="10" rx="2"/>
+          <polyline points="31.5,35 34,38 40,31" stroke-width="2"/>
+          <line x1="46" y1="35" x2="68" y2="35"/>
+          <rect x="30" y="46" width="10" height="10" rx="2"/>
+          <line x1="46" y1="51" x2="68" y2="51"/>
+          <rect x="30" y="62" width="10" height="10" rx="2" opacity="0.4"/>
+          <line x1="46" y1="67" x2="60" y2="67" opacity="0.4"/>
+          <!-- pen -->
+          <line x1="72" y1="44" x2="80" y2="36" stroke-width="2"/>
+          <path d="M72,44 L68,48 L69,44Z" fill="currentColor" stroke="none"/>
+          <polyline points="78,34 82,38 74,42"/>
+        </svg>
+        <div class="step-circle" aria-hidden="true"><span class="step-number">1</span></div>
+        <div class="step-content">
+          <h3 class="step-title">Sign Up &amp; Assessment</h3>
+          <p class="step-desc">Fill out a detailed questionnaire about your body, goals, lifestyle, injuries, and available equipment. Takes under 10 minutes.</p>
+        </div>
+      </div>
+      <div class="step">
+        <!-- Custom plan / document illustration -->
+        <svg class="step-illustration" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 8H58L74 24V72C74 74.2 72.2 76 70 76H18C15.8 76 14 74.2 14 72V12C14 9.8 15.8 8 18 8Z"/>
+          <path d="M58 8V24H74" stroke-width="1.5"/>
+          <!-- content lines -->
+          <line x1="22" y1="36" x2="66" y2="36"/>
+          <line x1="22" y1="44" x2="66" y2="44"/>
+          <line x1="22" y1="52" x2="52" y2="52"/>
+          <!-- star badge top-right -->
+          <polygon points="82,14 84.5,20.5 92,20.5 86,25 88.5,31.5 82,27 75.5,31.5 78,25 72,20.5 79.5,20.5" fill="currentColor" fill-opacity="0.15" stroke-width="1.5"/>
+          <line x1="22" y1="28" x2="50" y2="28" stroke-width="2.5"/>
+        </svg>
+        <div class="step-circle" aria-hidden="true"><span class="step-number">2</span></div>
+        <div class="step-content">
+          <h3 class="step-title">Get Your Custom Plan</h3>
+          <p class="step-desc">Within 48 hours, receive full dashboard access with your personalized workout routines and meal plan — built just for you.</p>
+        </div>
+      </div>
+      <div class="step">
+        <!-- Running figure + upward chart illustration -->
+        <svg class="step-illustration" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- figure head -->
+          <circle cx="38" cy="16" r="7" stroke-width="2"/>
+          <!-- body -->
+          <line x1="38" y1="23" x2="36" y2="42"/>
+          <!-- running arms -->
+          <line x1="36" y1="30" x2="24" y2="24"/>
+          <line x1="36" y1="30" x2="50" y2="26"/>
+          <!-- running legs -->
+          <line x1="36" y1="42" x2="28" y2="56"/>
+          <line x1="36" y1="42" x2="46" y2="54"/>
+          <!-- foot details -->
+          <line x1="28" y1="56" x2="22" y2="56"/>
+          <line x1="46" y1="54" x2="52" y2="56"/>
+          <!-- upward arrow chart -->
+          <polyline points="60,68 70,52 80,44 90,28" stroke-width="2.5"/>
+          <polyline points="84,24 90,28 90,36" stroke-width="2"/>
+          <!-- chart base -->
+          <line x1="58" y1="70" x2="94" y2="70" opacity="0.4"/>
+          <!-- dots on line -->
+          <circle cx="70" cy="52" r="2.5" fill="currentColor" stroke="none"/>
+          <circle cx="80" cy="44" r="2.5" fill="currentColor" stroke="none"/>
+          <circle cx="90" cy="28" r="3" fill="currentColor" stroke="none"/>
+        </svg>
+        <div class="step-circle" aria-hidden="true"><span class="step-number">3</span></div>
+        <div class="step-content">
+          <h3 class="step-title">Train, Track &amp; Transform</h3>
+          <p class="step-desc">Follow the daily plan, log your progress on the dashboard, and get continuous feedback and adjustments from your coach.</p>
+        </div>
+      </div>
+    </div>
+    <div class="how-cta"><a href="#pricing" class="btn-primary">Begin Your Assessment</a></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" aria-labelledby="pricing-headline" class="hidden">
+  <div class="container">
+    <div class="pricing-header">
+      <h2 class="pricing-headline" id="pricing-headline">Invest in Yourself. Pick Your Plan.</h2>
+      <p class="pricing-sub">Every plan includes your custom workout routine, personalized diet, and full dashboard access.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3 class="plan-name">Starter</h3>
+        <div class="plan-price">&#8377;1,000</div>
+        <div class="plan-duration">per month</div>
+        <hr class="pricing-divider">
+        <ul class="feature-list">
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Custom workout plan</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Personalized diet plan</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Dashboard access</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Exercise tutorial videos</li>
+        </ul>
+        <div class="pricing-card-cta"><a href="mailto:coach@fitcoach.in?subject=I'm interested in the Starter Plan" class="btn-ghost-white">Choose Starter</a></div>
+      </div>
+      <div class="pricing-card">
+        <h3 class="plan-name">Committed</h3>
+        <div class="plan-price">&#8377;3,000</div>
+        <div class="plan-duration">for 3 months</div>
+        <hr class="pricing-divider">
+        <ul class="feature-list">
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Everything in Starter</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Priority messaging support</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Bi-weekly plan adjustments</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Progress photo reviews</li>
+        </ul>
+        <div class="pricing-card-cta"><a href="mailto:coach@fitcoach.in?subject=I'm interested in the Committed Plan" class="btn-ghost-white">Choose Committed</a></div>
+      </div>
+      <div class="pricing-card">
+        <h3 class="plan-name">Dedicated</h3>
+        <div class="plan-price">&#8377;5,000</div>
+        <div class="plan-duration">for 6 months</div>
+        <hr class="pricing-divider">
+        <ul class="feature-list">
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Everything in Committed</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Bi-weekly video call check-ins</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Advanced progress analytics</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Supplement guidance</li>
+        </ul>
+        <div class="pricing-card-cta"><a href="mailto:coach@fitcoach.in?subject=I'm interested in the Dedicated Plan" class="btn-ghost-white">Choose Dedicated</a></div>
+      </div>
+      <div class="pricing-card highlighted">
+        <span class="best-value-badge">Best Value</span>
+        <h3 class="plan-name">All In</h3>
+        <div class="plan-price">&#8377;10,000</div>
+        <div class="plan-duration">for 12 months</div>
+        <hr class="pricing-divider">
+        <ul class="feature-list">
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Everything in Dedicated</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Weekly video call check-ins</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Continuous plan adjustments</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Full VIP WhatsApp support</li>
+          <li class="feature-item"><svg class="feature-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="2,8 6,12 14,4"/></svg>Massive savings — &#8377;833/month</li>
+        </ul>
+        <div class="pricing-card-cta"><a href="mailto:coach@fitcoach.in?subject=I'm interested in the All In Plan" class="btn-primary-pricing">Choose All In</a></div>
+      </div>
+    </div>
+    <p class="pricing-guarantee">All plans include a 7-day satisfaction guarantee. No lock-in contracts.</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="results" aria-labelledby="results-headline" class="hidden">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-h2" id="results-headline">Real People, Real Results</h2>
+      <p class="section-sub">These clients trained from home with nothing but a plan, a phone, and dedication.</p>
+    </div>
+    <div class="testimonials-grid">
+      <article class="testimonial-card">
+        <div class="before-after" aria-label="Before and after photos">
+          <div class="ba-img"><div class="ba-placeholder" aria-label="Before photo">Before Photo</div><span class="ba-label">Before</span></div>
+          <div class="ba-img"><div class="ba-placeholder" aria-label="After photo">After Photo</div><span class="ba-label">After</span></div>
+        </div>
+        <p class="testimonial-quote">"I was skeptical about online coaching — how could someone guide me without being in the same room? But Coach Arjun's daily check-ins and crystal-clear plans proved me wrong. I trained in my bedroom with two dumbbells and a resistance band. The results speak for themselves."</p>
+        <div><p class="testimonial-attribution"><strong>Priya S.</strong>29, Bengaluru</p><span class="result-tag">Lost 14 kg in 5 months</span></div>
+      </article>
+      <article class="testimonial-card">
+        <div class="before-after" aria-label="Before and after photos">
+          <div class="ba-img"><div class="ba-placeholder" aria-label="Before photo">Before Photo</div><span class="ba-label">Before</span></div>
+          <div class="ba-img"><div class="ba-placeholder" aria-label="After photo">After Photo</div><span class="ba-label">After</span></div>
+        </div>
+        <p class="testimonial-quote">"As a night-shift IT professional, I never had time for a gym. Arjun built my entire plan around my odd sleep schedule and the basic equipment in my apartment. For the first time in years, I actually look forward to working out."</p>
+        <div><p class="testimonial-attribution"><strong>Rahul K.</strong>34, Hyderabad</p><span class="result-tag">Gained 6 kg lean muscle</span></div>
+      </article>
+      <article class="testimonial-card">
+        <div class="before-after" aria-label="Before and after photos">
+          <div class="ba-img"><div class="ba-placeholder" aria-label="Before photo">Before Photo</div><span class="ba-label">Before</span></div>
+          <div class="ba-img"><div class="ba-placeholder" aria-label="After photo">After Photo</div><span class="ba-label">After</span></div>
+        </div>
+        <p class="testimonial-quote">"I'm a mother of two and thought getting fit was something I'd 'do someday.' The personalized diet plan was a game-changer — it worked around what my family eats. No separate cooking, no expensive supplements. Just smart choices."</p>
+        <div><p class="testimonial-attribution"><strong>Sneha M.</strong>31, Pune</p><span class="result-tag">Lost 10 kg in 4 months</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" aria-labelledby="faq-headline" class="hidden">
+  <div class="container">
+    <div class="faq-inner">
+      <div class="faq-header"><h2 class="section-h2" id="faq-headline">Common Questions</h2></div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" aria-controls="faq-a1">Do I need a gym membership to join?<svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5,8 10,13 15,8"/></svg></button>
+          <div class="faq-answer" id="faq-a1" role="region"><p class="faq-answer-inner">Not at all. Many of our clients train entirely at home with minimal or no equipment. During your initial assessment, you tell us exactly what you have access to — even if it's just a yoga mat and a pair of water bottles — and we build your plan around that. If you do have a gym membership, we'll make full use of it.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" aria-controls="faq-a2">What if I have dietary restrictions or food allergies?<svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5,8 10,13 15,8"/></svg></button>
+          <div class="faq-answer" id="faq-a2" role="region"><p class="faq-answer-inner">Your nutrition plan is built from scratch based on your preferences. Whether you're vegetarian, vegan, Jain, have lactose intolerance, or follow any other dietary pattern — we design meals you'll actually enjoy eating. No generic diet sheets.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" aria-controls="faq-a3">How is this different from free workout plans on YouTube?<svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5,8 10,13 15,8"/></svg></button>
+          <div class="faq-answer" id="faq-a3" role="region"><p class="faq-answer-inner">A YouTube video doesn't know your body, your injuries, your schedule, or your goals. Our plans are fully personalized and adjusted continuously based on your progress. Plus, you have a real coach checking in on you daily — that accountability is what turns intention into results.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false" aria-controls="faq-a4">Can I switch or cancel my plan?<svg class="faq-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="5,8 10,13 15,8"/></svg></button>
+          <div class="faq-answer" id="faq-a4" role="region"><p class="faq-answer-inner">Yes. All plans come with a 7-day satisfaction guarantee. If you're not happy within the first week, you get a full refund, no questions asked. You can also upgrade your plan at any time — we'll prorate the difference.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta" aria-labelledby="cta-headline" class="hidden">
+  <div class="final-cta-inner">
+    <h2 class="final-cta-headline" id="cta-headline">Your Transformation Is One Decision Away</h2>
+    <p class="final-cta-sub">Stop waiting for Monday. Stop waiting for motivation. Start today with a plan built for your life.</p>
+    <a href="#pricing" class="btn-cta-inverted">Start Your Transformation</a>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer aria-label="Site footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">FitCoach</div>
+        <p class="footer-tagline">Professional fitness coaching, delivered remotely.</p>
+        <div class="social-icons" aria-label="Social media links">
+          <a href="#" aria-label="Instagram" class="social-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube" class="social-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp" class="social-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </a>
+          <a href="#" aria-label="Twitter / X" class="social-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M4 20L20 4"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Get in Touch</div>
+        <div class="footer-contact">
+          <div class="footer-contact-item">coach@fitcoach.in</div>
+          <div class="footer-contact-item">+91 98765 43210</div>
+          <div class="footer-contact-item">Mumbai, India<br>(Remote Worldwide)</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&#169; 2026 FitCoach. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Sticky nav background
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  }, {passive: true});
+
+  // Mobile menu
+  const hamburger = document.querySelector('.nav-hamburger');
+  const overlay = document.getElementById('nav-overlay');
+  const overlayClose = document.querySelector('.overlay-close');
+  const overlayLinks = document.querySelectorAll('.nav-overlay a');
+
+  function openMenu() {
+    overlay.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    overlayClose.focus();
+  }
+  function closeMenu() {
+    overlay.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    hamburger.focus();
+  }
+
+  hamburger.addEventListener('click', openMenu);
+  overlayClose.addEventListener('click', closeMenu);
+  overlayLinks.forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeMenu();
+  });
+
+  // Focus trap in mobile menu
+  overlay.addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const focusable = overlay.querySelectorAll('a, button');
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  // FAQ accordion
+  const faqBtns = document.querySelectorAll('.faq-btn');
+  faqBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      faqBtns.forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        const ans = document.getElementById(b.getAttribute('aria-controls'));
+        if (ans) ans.style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        const ans = document.getElementById(btn.getAttribute('aria-controls'));
+        if (ans) ans.style.maxHeight = ans.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Scroll reveal
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('hidden');
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.hidden').forEach(el => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.hidden').forEach(el => {
+      el.classList.remove('hidden');
+      el.classList.add('revealed');
+    });
+  }
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('main section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const activeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.4, rootMargin: '-80px 0px -40% 0px' });
+  sections.forEach(s => activeObserver.observe(s));
+})();
+</script>
+</body>
+</html>
